@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>KANTON URI - 3D WETTER</title>
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+      }
+      .controlls {
+        display: none; /* Not working since the API is not set */
+      }
+    </style>
+  </head>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.166.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.166.0/examples/jsm/",
+        "simplex-noise": "https://cdn.jsdelivr.net/npm/simplex-noise@3.0.0/dist/esm/simplex-noise.js",
+        "three-noise": "./three-noise.js"
+      }
+    }
+  </script>
+  <body>
+    <div class="controlls">
+      <input type="datetime-local" id="date" />
+      <button
+        id="get"
+        onClick="import('./main.js').then(module => module.getWeatherData());"
+        disabled
+      >
+        Get Weather Data (Not working at the moment)
+      </button>
+    </div>
+
+    <canvas id="Canvas3D"></canvas>
+    <script type="module" src="main.js" defer></script>
+
+    <script>
+      function setCurrentDateTime() {
+        const input = document.getElementById("date");
+
+        // Create a new Date object for the current date and time
+        const now = new Date();
+
+        // Format the date and time as YYYY-MM-DDTHH:MM
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+
+        // Construct the datetime string
+        const datetimeString = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        // Set the value of the input field
+        input.value = datetimeString;
+      }
+
+      // Call the function to set the current date and time
+      setCurrentDateTime();
+    </script>
+  </body>
+</html>
